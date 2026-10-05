@@ -1,76 +1,8 @@
-# AGENT ROLE
-
-# ✅ Validation Agent
-
-## Role
-You evaluate whether the proposed or completed investigation is scientifically defensible.
-
-## Validation stack
-1. provenance;
-2. input data QA;
-3. process verification;
-4. spatial sanity;
-5. independent/external validation;
-6. sensitivity/robustness;
-7. claim audit.
-
-## Goal
-Identify what has actually been established, what remains uncertain, and what evidence should be gathered next.
-
-## Output
-Produce:
-- VERIFIED: checks passed;
-- NOT VERIFIED: unresolved implementation issues;
-- VALIDATION EVIDENCE;
-- THREATS TO VALIDITY;
-- CLAIMS SUPPORTED;
-- CLAIMS NOT YET SUPPORTED;
-- NEXT EXPERIMENT / NEXT QUESTION.
-
-Self-review by an LLM is not independent validation.
-
-
-# CURRENT TASK
-
-Design the validation plan and identify what evidence would support or falsify the main scientific claim.
-
-# CURRENT RESEARCH STATE / EVIDENCE
-
-## FILE: outputs/research_questions.md
-
-# Candidate research questions and hypotheses (v3)
+# Candidate research questions and hypotheses (v1)
 
 Stage: 01 Research Question Agent
 Packet: `outputs/prompt_packets/01_research_question_agent.md`
 Date: 2026-10-04
-Previous versions: `outputs/history/research_questions_v1.md`, `outputs/history/research_questions_v2.md`
-
-## 0. Human decisions recorded
-
-**Decision 1 (after v1): density is a confound.**
-
-> Density is a confound, not part of spatial structure. The central hypothesis is that spatial
-> arrangement (irregularity, clustering, connectivity pattern) affects error spread independently of
-> density. Use the degree-matched control as the primary test. Report the unadjusted
-> density-inclusive comparison as a secondary result.
-
-This narrows the hypothesis in `inputs/problem.md`, which described the expected amplifying layout
-as "dense, irregular, highly connected"; the narrowing is the human's, not the agent's.
-
-**Decision 2 (after v2): how strictly density is controlled, and how thresholds are treated.**
-
-> U1 decision: make degree-preserving rewiring a co-primary test alongside cross-site mean-degree
-> matching. Degree distribution (including heterogeneity) is treated as part of density and is
-> controlled; "arrangement" means the pattern of who connects to whom given fixed degrees. Use
-> k-nearest-neighbour graphs as a robustness check, not a primary test.
->
-> Threshold issue: accepted as expected. Report the distance threshold needed at each site to reach
-> the target mean degree as a descriptive result; differences in what "proximity" means across sites
-> are substantively relevant, not a limitation to minimize.
-
-Changes in v3: assumptions A6 and A7, RQ1 (two co-primary tests, outcome table, threats), RQ2 (kNN
-as robustness check), the recommendation, and the unresolved-issues list. RQ3 to RQ5 and the ranking
-are unchanged.
 
 ## 1. Inputs used
 
@@ -99,12 +31,10 @@ Labelled so the critic can challenge them individually.
 - **A4. "Error" is a synthetic label flip** on a randomly chosen fraction `p` of nodes, with fixed seeds.
 - **A5. Two sites are two observations of "city type".** Any Kibera-versus-suburb difference is
   confounded with everything else that differs between the two places and their mapping histories.
-- **A6. Density is a confound, and it includes the whole degree distribution (human decisions 1
-  and 2).** "Arrangement" means the pattern of who connects to whom given fixed degrees.
-- **A7. Density acts on propagation only through degree.** Building density matters by giving each
-  building more neighbours within `d`. Fixing the degree sequence is therefore taken as fixing
-  density. This link between a spatial quantity (buildings per unit area) and a graph quantity
-  (degree) is an agent assumption that the human's definition relies on.
+- **A6. The human hypothesis bundles density, irregularity, and connectivity** into one construct
+  ("dense, irregular, highly connected"). This agent does not unbundle it silently; RQ1 keeps the
+  original framing and adds a control that reports how much of the effect density alone accounts for.
+  Whether density is part of "spatial structure" or a confound is a decision for the human (see U1).
 
 ## 3. A point that shapes every candidate
 
@@ -130,80 +60,45 @@ Two consequences follow:
 
 Ranking reflects this agent's judgement against the seven criteria; it is not validation.
 
-### Rank 1. RQ1: Does spatial arrangement moderate error reach independently of density?
+### Rank 1. RQ1: Does urban layout moderate error reach, and is the moderation more than density?
 
-Central question as fixed by human decisions 1 and 2 in section 0.
+This is the human's stated question, kept intact, with one added control.
 
-- **Research question.** With density held fixed, does the arrangement of connections in
-  building-level proximity graphs change how far injected errors spread, and does it do so
-  differently in Kibera than in a planned US suburban grid?
-- **Candidate hypothesis.** Two co-primary tests, each two-sided because direction is the empirical
-  question.
-  - **H1-R (co-primary, within site, degree-preserving rewiring).** At each site, error reach on
-    the observed graph differs from reach on rewired graphs with the identical degree sequence.
-    This isolates arrangement exactly as the human defined it.
-  - **H1-X (co-primary, cross-site, mean-degree matching).** With `d` chosen per site so both
-    graphs have the same mean degree, the slope of error reach on injected error rate `p` differs
-    between sites (a site × `p` interaction).
-  - **H1-alt (competing).** Arrangement reduces reach relative to the rewired null, because spatial
-    clustering makes paths redundant (section 3), and it does so more in the more clustered site.
-  - **H1-sec (secondary, unadjusted).** At a common metric threshold `d`, with density left free,
-    reach rises faster with `p` in Kibera. Reported for context; density alone could produce it.
-- **How the two tests relate.** *Agent reading; the critic should check it.* H1-X matches mean
-  degree only, so under decision 2 a cross-site difference could still come from differing degree
-  distributions, which now count as density. H1-R controls the full degree sequence but compares a
-  site with itself. The outcomes therefore read as:
-
-  | H1-R (observed vs rewired) | H1-X (cross-site) | Interpretation |
-  |---|---|---|
-  | Differs at both sites | Differs | Supports the central hypothesis, provided the cross-site difference also appears in the arrangement effect (below) |
-  | Differs | No difference | Arrangement matters, similarly at both sites; no support for a site-type contrast |
-  | No difference | Differs | Cross-site difference is attributable to degree distribution, i.e. density; central hypothesis not supported |
-  | No difference | No difference | Central hypothesis refuted within this model |
-
-  To make row 1 airtight, compute an **arrangement effect** per site (observed reach minus mean
-  rewired reach, at each `p`) and compare it across sites. That contrast has the full degree
-  sequence controlled on both sides. This is an agent proposal, not part of the human decision (U1).
-- **Expected observable evidence.** Reach-versus-`p` curves over many seeded replicates for four
-  graph conditions: observed and rewired, at each site, all at the same target mean degree.
-  Alongside them, as a descriptive result in its own right (decision 2): the distance threshold
-  each site needs to reach the target mean degree, with what that distance physically spans at each
-  site (abutting structures, neighbouring lots, across a street).
+- **Research question.** At matched injected error rates, does the reach of propagated error on
+  building-level proximity graphs differ between Kibera and a planned US suburban grid, and does a
+  difference remain when the two graphs are matched on mean degree?
+- **Candidate hypothesis.**
+  - H1a: the slope of error reach on injected error rate `p` is steeper in Kibera than in the suburb
+    (a site × `p` interaction).
+  - H1b: the interaction persists after degree matching, meaning layout contributes beyond density.
+  - Competing H1c: after degree matching the interaction shrinks to near zero or reverses, because
+    spatial clustering makes paths redundant.
+- **Expected observable evidence.** Reach-versus-`p` curves per site, over many seeded replicates,
+  that separate by more than replicate-to-replicate variation. Under H1b the curves still separate
+  when `d` is rescaled per site to equalise mean degree, and observed reach differs from reach on
+  degree-preserving rewired versions of each graph.
 - **Plausible data.** OSM building footprints for both sites via OSMnx, with a recorded snapshot
   date. Google Open Buildings and/or Microsoft footprints for a completeness cross-check.
 - **Plausible method.** Project each site to its local UTM zone (EPSG:32737 for Nairobi; EPSG:32612
   for Phoenix or EPSG:32611 for Las Vegas). Build distance-band graphs with libpysal, convert to
-  NetworkX, choosing `d` per site to hit a common target mean degree. Generate an ensemble of
-  rewired graphs per site with `networkx.double_edge_swap`, using enough swaps that reach
-  stabilises. Inject errors at a grid of `p` values. Propagate with a multi-hop rule fixed in
-  advance. Measure reach as the fraction of non-seeded nodes flagged, plus an amplification ratio
-  (flagged per seeded node). Fit reach on `p`, site, graph condition, and their interactions. Run
-  the common-`d` comparison separately for H1-sec.
-- **Main threat to validity.**
-  - *Site confounding (A5).* With two sites, a cross-site difference in arrangement effect cannot
-    be attributed to "irregular versus planned" layouts in general. H1-R is not affected, since it
-    is a within-site comparison.
-  - *What the rewired null removes.* Rewiring replaces short spatial links with links between
-    arbitrary buildings, so the null is no longer a spatial graph. H1-R therefore tests "spatially
-    arranged versus arbitrarily wired at the same degrees". It cannot by itself distinguish
-    irregular arrangement from regular arrangement; only the cross-site contrast speaks to that.
-  - *Rewiring mechanics.* Rewiring can change the number and size of connected components. Whether
-    that is allowed (component structure as part of arrangement) or prevented
-    (`connected_double_edge_swap`) changes the null and is undecided (U2a).
-  - *Two co-primary tests.* Two chances to find an effect; the decision rule and minimum effect
-    size should be fixed before any run (U5).
-- **What would weaken or refute it.** The central hypothesis is refuted within this model if
-  observed graphs are indistinguishable from their rewired nulls at both sites across the tested
-  `p` range and target degrees. It is not supported if H1-X shows a difference that disappears in
-  the cross-site contrast of arrangement effects. Both are reportable results.
+  NetworkX. Inject errors at a grid of `p` values. Propagate with a multi-hop rule fixed in advance.
+  Measure reach as the fraction of non-seeded nodes flagged, plus an amplification ratio (flagged per
+  seeded node). Compare against (i) degree-matched thresholds and (ii) degree-preserving rewiring
+  (`networkx.double_edge_swap`). Fit reach on `p`, site, and their interaction.
+- **Main threat to validity.** A5 above: with two sites the "structure" effect cannot be separated
+  from site identity. The rewiring null partly addresses this, because it changes layout while
+  holding site and degree fixed. A second threat is a threshold artefact: one metric `d` may link
+  nearly everything in Kibera and nearly nothing in the suburb (expected, not yet measured).
+- **What would weaken or refute it.** H1a: site curves overlap within replicate variation across the
+  tested `p` range. H1b: the site difference disappears under degree matching and observed graphs
+  are indistinguishable from their rewired nulls. Either outcome is a reportable result.
 
 ### Rank 2. RQ2: Is the layout effect stable across proximity thresholds and graph definitions?
 
 Best run as the built-in sensitivity analysis for RQ1 rather than a separate study.
 
-- **Research question.** Do the sign and size of the two co-primary RQ1 results hold across target
-  mean degrees and graph-construction rules, or do they depend on the scale chosen? The same sweep
-  over raw `d` supports the secondary, unadjusted comparison.
+- **Research question.** Do the sign and size of the site × `p` interaction hold across proximity
+  thresholds and graph-construction rules, or do they depend on the scale chosen?
 - **Candidate hypothesis.** H2: each site has a threshold range in which reach rises sharply as the
   graph becomes connected, and this range sits at smaller `d` in Kibera than in the suburb. Outside
   those ranges the between-site ordering is stable.
@@ -212,12 +107,8 @@ Best run as the built-in sensitivity analysis for RQ1 rather than a separate stu
   k-nearest-neighbour, and scale-normalised thresholds (for example multiples of each site's median
   nearest-neighbour distance).
 - **Plausible data.** Same as RQ1.
-- **Plausible method.** Sweep the target mean degree (primary) and raw `d` (secondary) and repeat
-  the RQ1 experiment; repeat with centroid versus footprint-edge distance. Report the full curve,
-  not one chosen value, including the threshold-versus-target-degree curve per site (the
-  descriptive result from decision 2). As a robustness check only (decision 2), repeat with kNN
-  graphs. A kNN graph gives every building `k` outgoing links, but once links are made undirected
-  degrees are no longer exactly equal, so the symmetrisation rule must be stated.
+- **Plausible method.** Sweep `d` and repeat the RQ1 experiment; repeat with kNN graphs and with
+  centroid versus footprint-edge distance. Report the full curve, not one chosen threshold.
 - **Main threat to validity.** MAUP in its scale form (Openshaw 1984, per the human's list): the
   conclusion may be an artefact of `d`. Edge effects also grow with `d`, since boundary nodes lose
   more neighbours; analyse a core area inside a buffer at least as wide as the largest `d` times the
@@ -320,23 +211,15 @@ should judge whether RQ1 + RQ2 alone meets the course's GeoAI expectation.
 
 ## 6. Recommendation
 
-Adopt **RQ1 as the single primary question, with RQ2 as its mandatory sensitivity analysis**. The
-co-primary tests are the within-site rewiring comparison (H1-R) and the cross-site mean-degree-matched
-interaction (H1-X). The unadjusted common-threshold comparison (H1-sec) and the per-site distance
-thresholds are reported as secondary and descriptive results; kNN graphs are a robustness check.
-That fits the stated scope (two sites, one method, one error-injection experiment), and the rewired
-null gives the hypothesis a real chance of failing. Add RQ3 only if time allows; run the RQ5
-completeness check as a data-quality step regardless.
+Adopt **RQ1 as the single primary question, with RQ2 as its mandatory sensitivity analysis**. That
+fits the stated scope (two sites, one method, one error-injection experiment), and the degree-matched
+and rewired nulls give the hypothesis a real chance of failing. Add RQ3 only if time allows; run the
+RQ5 completeness check as a data-quality step regardless of which question is chosen.
 
 ## 7. Unresolved issues
 
-- **U1. How the two co-primary tests combine.** (Earlier U1 items resolved by decisions 1 and 2.)
-  H1-X controls mean degree only, while decision 2 counts the whole degree distribution as density.
-  The agent proposes the cross-site contrast of arrangement effects (observed minus rewired) as the
-  statistic that decides the site-type claim, and the outcome table in RQ1 as the decision rule.
-  Needs the critic's assessment and human approval.
-- **U2a. Rewiring details.** Whether rewired graphs may fragment or must stay connected, how many
-  swaps count as fully mixed, and how many rewired graphs form the ensemble.
+- **U1. Is density part of "spatial structure" or a confound?** Determines whether H1a or H1b is the
+  central claim. Needs a human decision.
 - **U2. Propagation rule.** Hop limit, deterministic versus probabilistic, and any decay with
   distance are unspecified. Must be fixed before any run and justified as a stated assumption.
 - **U3. Two-site design.** No analysis can attribute a between-site difference to layout type in
@@ -361,24 +244,9 @@ completeness check as a data-quality step regardless.
 
 ## 8. Suggested next scientific action
 
-1. Regenerate packet 02 so it embeds this v3 file, then send it to the Scientific Critic with U1
-   (how the co-primary tests combine) and the GeoAI-relevance concern flagged for explicit
-   judgement.
+1. Send this file to the Scientific Critic (packet 02) with U1 and the GeoAI-relevance concern
+   flagged for explicit judgement.
 2. In parallel, a cheap descriptive pull that commits to no hypothesis: download OSM building
    footprints for Kibera and one candidate suburb, record the snapshot date, project to UTM, and
    tabulate building counts and nearest-neighbour distance distributions. This resolves U6 and U7
    and shows whether a common threshold range exists at all.
-
-
-## FILE: outputs/methodology_v1.md
-
-
-
-## FILE: outputs/data_tool_plan.md
-
-
-
-# EXECUTION REQUIREMENT
-
-Work only from the supplied state and clearly label missing evidence.
-Return the requested structured artifact. Do not silently change the research question.
