@@ -53,14 +53,15 @@ Critique the methodology as a scientific reviewer, emphasizing spatial validity 
 
 ## FILE: outputs/research_questions.md
 
-# Research question and hypotheses (v7, frozen pending independent review)
+# Research question and hypotheses (v8, frozen)
 
-Stage: 01 Research Question Agent (revision)
+Stage: 01 Research Question Agent (revision after the independent review)
 Packet: `outputs/prompt_packets/01_research_question_agent.md`
 Date: 2026-10-04
-Previous versions: `outputs/history/research_questions_v1.md` to `_v6.md`
-Status: **frozen** by human decision 6. No further rulings are requested in this document.
-Responds to: `outputs/question_review.md` (verdict REVISE)
+Previous versions: `outputs/history/research_questions_v1.md` to `_v7.md`
+Status: **frozen** by human decision 7. No rulings are requested in this document. Remaining
+concerns are listed for the methodology stage in section 10.
+Responds to: `outputs/scientific_critic_independent.md` (verdict REVISE)
 
 Nothing in this document is a finding. No data has been collected and no code has been run.
 
@@ -151,40 +152,81 @@ Nothing in this document is a finding. No data has been collected and no code ha
 > Accept your three readings. Revise to v7 and preserve v6. After v7, the research question is
 > frozen pending the independent review; do not open new rulings.
 
+**Decision 7 (after the independent review of v7): rulings on the review; final freeze.**
+
+> Match the suburb to Kibera on building count (within ±10%), not ground area. Synthetic patterns
+> are generated at the same node count.
+> Section 4.4 uses the block-bootstrap interval. Monte Carlo replicates are run until MC error is
+> negligible relative to it and reported as a precision check only.
+> Estimated critical t (observed-to-rewired ratio, cross-site) is the sole primary estimand.
+> Amplification is secondary and descriptive and does not count as corroboration.
+> State explicitly that the arrangement effect includes spatial concentration of high-degree
+> nodes; report degree assortativity as a diagnostic. No additional test.
+> Estimate critical t on the largest connected component and report its share of nodes. Validate
+> the estimator on a square lattice, where the bond percolation threshold is exactly 0.5; it must
+> recover this within a stated tolerance before use on any other graph.
+> Footprint gate: OSM, Microsoft, and Google at Kibera; OSM and Microsoft at the suburb; visual
+> spot check of 50 buildings at both. Check completeness within the Kibera site, not only in
+> total (Yeboah et al. 2021).
+> Extend the synthetic gradient: regular lattice → uniform random → clustered (Thomas or Matérn
+> cluster process).
+> Edge handling: rewire the full graph including the buffer; compute all outcomes on core nodes
+> only. Same rule for every graph.
+> The fallback learning component is the expected path.
+> No novelty wording; describe the contribution as an application.
+>
+> After v8 the research question is frozen. Do not open new rulings; list any remaining concerns
+> for the methodology stage instead.
+
 Standing effects of these decisions:
 
-- **The research question, estimands, hypotheses, margins, and decision rule are frozen** as of
-  v7. Points that decision 6 leaves operationally open are recorded in section 10 as stated agent
-  defaults or as values the pilot fixes. They are not requests for rulings. The independent
-  review may reopen any of them.
+- **The research question, the primary estimand, the hypotheses, the margin, and the decision
+  rule are frozen** as of v8. The question in section 4.1 is worded exactly as in v7.
 - Decision 3 supersedes decision 2 on one point: the mean-degree-matched comparison is the middle
   step of the decomposition, not a co-primary test.
-- Decisions 4, 5 and 6 confirm the agent's readings recorded in v4, v5 and v6.
-- Decision 5 supersedes decision 4 on one point: estimated critical `t` is co-primary, not
-  secondary.
-- Decision 5 fixes the co-primary estimands **before the pilot**. The pilot can set operating
-  values (which `t`, how many swaps). It cannot change which estimands are primary.
-- **Scope is frozen** (decision 4). The fallback in decision 5 replaces the sub-window model when
-  that model cannot run; it is not an addition. New concerns are recorded as threats, unresolved
-  issues, or future work.
+- **Decision 7 supersedes decision 5 on two points.** The critical-value contrast is the sole
+  primary estimand, not co-primary. The suburb is matched to Kibera on building count, not on
+  extent.
+- **Decision 7 supersedes decision 4 on one point.** Amplification is no longer a primary
+  estimand. The restriction to sub-critical `t` still applies wherever amplification is reported.
+- **Decision 7 supersedes decision 6 on two points.** The two-contrast decision table is replaced
+  by a rule on one contrast (4.4). The suburb gate uses two footprint sources, not three.
+- **Decision 7 qualifies decision D6 on one point.** The degree sequence is still density and is
+  still controlled. Where the high-degree nodes sit, and that they are linked to each other, is
+  part of the arrangement effect (A5).
+- Decisions 4, 5 and 6 confirm the agent's readings recorded in v4, v5 and v6, except where
+  decision 7 supersedes them.
+- **Scope is frozen** (decision 4). Decision 7 adds a clustered end to the synthetic gradient and
+  one diagnostic; it adds no test.
+- Points that decision 7 leaves operationally open are recorded as stated agent readings (A11),
+  as values the pilot fixes, or as concerns for the methodology stage (section 10). None is a
+  request for a ruling.
 
-Changes in v7: decision 6 applied; assumptions A9 and A10; margin for the critical-value contrast
-(4.2, 4.3); decision table marked approved (4.4); uncertainty method (5.1, 5.8); data-gate rule
-and suburb nomination (5.2); model types and fallback target (5.7); threats; section 10 rewritten
-as defaults and pilot values.
+Changes in v8: decision 7 applied; sole primary estimand and one-contrast rule (4.2 to 4.4);
+node-count matching (A11, 5.2); arrangement redefined to include spatial concentration of
+high-degree nodes, with an assortativity diagnostic (A5, 5.5); largest-component rule and
+estimator validation (5.1, 5.3); footprint gate by site and within-site completeness (5.2);
+gradient extended to clustered patterns (5.4); edge rule (5.8); fallback as the expected path
+(5.7); contribution statement (4.6); eight new papers (section 2); response to the independent
+review (section 9); section 10 rewritten.
 
 ## 1. Inputs used
 
 | Input | Use |
 |---|---|
 | `inputs/problem.md` | Broad problem, scope limits, required validity threats |
-| `inputs/evidence/README.md` (revised by the human) | Claim-to-citation map, now with a Claim 5 |
-| `inputs/evidence/*.pdf` (eleven papers; several read only in part) | See `outputs/evidence_notes.md` for pages read, what each says, and checks on the README summaries |
-| `outputs/question_review.md` | Issues 1 to 11 and the REVISE verdict |
-| Human decisions 1 to 4 | Quoted above |
+| `inputs/evidence/README.md` (revised by the human) | Claim-to-citation map |
+| `inputs/evidence/*.pdf` (nineteen papers; several read only in part) | See `outputs/evidence_notes.md` for pages read, what each says, and checks on the README summaries |
+| `outputs/scientific_critic_independent.md` | Issues 1 to 12 and the REVISE verdict |
+| `outputs/history/question_review.md` | The earlier, non-independent review (issues 1 to 11) |
+| `outputs/history/research_questions_v7.md` | The version revised here |
+| Human decisions 1 to 7 | Quoted above |
 
-The reviewer was not independent of the author (review section 0). An independent rerun of
-packet 02 is still outstanding.
+**Limits on the review.** The independent review worked from the packet only and did not read
+the papers. It is written by a model of the same family as this document's author. Under
+AGENTS.md rule 4, agreement between the two is not independent scientific validation. Several of
+the review's technical statements were marked as unverified background; their status is tabulated
+in `outputs/evidence_notes.md` section 23.
 
 ## 2. What the evidence supports
 
@@ -193,19 +235,35 @@ propagation on building-proximity graphs, so every point applies here by analogy
 
 **Supported**
 
-- **Building-centroid proximity graphs have a precedent**, including a minimum-area filter and a
-  check of sensitivity to it (Behnisch et al. 2019).
+- **Building-centroid proximity graphs with a distance threshold have one precedent**, including
+  a minimum-area filter and a check of sensitivity to it (Behnisch et al. 2019). Three GeoAI
+  papers also use building centroids as nodes, with k-nearest-neighbour or Delaunay edges (Lei et
+  al. 2024; Jia et al. 2024; Liu & Song 2025).
 - **Comparing a proximity graph with a degree-preserving rewired version has a precedent** (Iotti
   et al. 2017). That comparison is established and is not a finding of this project.
 - **A per-link transmission rule has a precedent** (Watts & Strogatz 1998) and behaves as a
   percolation process with a threshold (Barthélemy 2011).
+- **The bond percolation threshold of the square lattice is 1/2** (Barthélemy 2011). This is the
+  known answer used to validate the estimator.
+- **At the same degree distribution, spatial structure reduces onward transmission through short
+  loops** (Ghadiri et al. 2026, preprint). Shown for uniform random points against Erdős–Rényi
+  graphs, and for a reproduction number, not a threshold.
 - **Proximity graphs are highly clustered**, and uneven point density becomes uneven degree
   (Barthélemy 2011; Iotti et al. 2017).
+- **Degree-preserving rewiring leaves assortativity free to change** (Iotti et al. 2017).
 - **Association-based scoring propagates erroneous seed labels.** One research system, tested on
   synthetic data, degrades sharply when many initial labels are wrong (Macskassy & Provost 2005).
-- **Blocked cross-validation is required for spatially structured data** (Roberts et al. 2017).
-- **The comparison footprint dataset is weakest in dense contiguous settlement** (Sirko et al.
-  2021).
+- **Random cross-validation overstates performance on spatially dependent data**; blocked or
+  spatial cross-validation is the remedy when predicting into new areas (Roberts et al. 2017; Sun
+  et al. 2023).
+- **Footprint sources disagree in Nairobi.** City-wide, most OSM polygons have no matching
+  Microsoft or Google polygon, and the Microsoft count is about 35% below the OSM count (Okyere
+  et al. 2025, preprint).
+- **Machine-derived footprints are weakest in dense contiguous settlement** (Sirko et al. 2021).
+- **Site or city totals hide unmapped patches in OSM.** Las Vegas is described as a few
+  well-mapped neighbourhoods among unmapped areas (Herfort et al. 2023).
+- **Remote-mapping completeness in slums depends on building density and roof form**, across
+  seven sites (Yeboah et al. 2021).
 - **Critical values estimated on small areas are noisy** (Behnisch et al. 2019; Fagundes et al.
   2025).
 
@@ -213,17 +271,20 @@ propagation on building-proximity graphs, so every point applies here by analogy
 
 - **Which graph has the lower critical value.** Lattice percolation results say rewiring lowers
   the threshold (Barthélemy). An SIS study on random geometric graphs reports the estimated
-  critical value rising under heavy rewiring, while outbreaks become easier (Iotti et al.). The
-  v4 expectation that rewired graphs cross first is therefore not assumed here.
-- **Whether `R` is below 1.** Expected from the lattice results; not established for a one-shot
-  cascade on degree-preserving rewirings of irregular proximity graphs.
+  critical value rising under heavy rewiring, while outbreaks become easier (Iotti et al.).
+  Ghadiri et al. give no threshold result. The direction of `Q` is not assumed.
+- **Whether completeness varies within the Kibera site.** Yeboah et al. report one figure per
+  site, and their sites are anonymised. Within-site variation is an inference.
 
 **Not supported by anything read**
 
 - That the two candidate sites differ in building arrangement.
 - That either site's data is adequate.
-- That the simulated rule matches any deployed or published scoring method (see A4).
+- That the simulated rule matches any deployed or published scoring method (A4).
 - That an evidence gap exists. No literature search has been done.
+- Several background statements in the independent review: the size-scaling exponents, the
+  threshold formula for rewired graphs, the effect of assortativity on thresholds, and the
+  coverage and import history of footprint sources in the United States.
 
 ## 3. Assumptions
 
@@ -232,45 +293,82 @@ propagation on building-proximity graphs, so every point applies here by analogy
   reach a common target mean degree.
 - **A3. Propagation rule (decisions D1 and 4).** A fraction `p` of nodes is seeded as erroneous.
   Each flagged node gets one attempt to flag each unflagged neighbour, succeeding with probability
-  `t` independently per link. Spread continues until no new node is flagged. No hop limit in the
-  primary analysis; a 2-hop limit in the sensitivity analysis.
+  `t` independently per link. Spread continues until no new node is flagged. No hop limit, except
+  in the 2-hop sensitivity run on amplification.
 - **A4. The rule is a stylised abstraction, not a published method.** The one association-scoring
   system in the evidence (Macskassy & Provost 2005) averages scores over a node's neighbours,
   where the cascade gives each link an independent chance to transmit. Results under A3 cannot be
-  read as results for that system. The human has revised the README to say this, and has ruled
-  that the difference is recorded as future work only (section 12).
-- **A5. Density is a confound and includes the whole degree distribution** (decisions 1, 2, D6).
-  Arrangement is who connects to whom at fixed degrees. Local packing unevenness is density by
-  definition.
-- **A6. Two sites are two cases**, not a sample of layout types.
-- **A7. Arrangement effect** is the ratio of amplification factors, observed over rewired
-  (confirmed in decision 4).
+  read as results for that system. The difference is recorded as future work only (decision 5).
+- **A5. Density, and what arrangement includes (decisions 1, 2, D6, 7).**
+  - Density is a confound. It includes the whole degree sequence, which rewiring holds fixed.
+  - Arrangement is who connects to whom at fixed degrees.
+  - **Arrangement includes the spatial concentration of high-degree nodes** (decision 7). In a
+    distance-band graph a tightly packed patch produces high-degree nodes that are linked to
+    each other. Rewiring keeps each node's degree and breaks that linking. The
+    observed-to-rewired ratio therefore contains both the local pattern of connections and the
+    clumping of dense patches. The study does not separate the two.
+  - Degree assortativity is reported for every observed graph as a diagnostic of that clumping.
+    It is not tested.
+- **A6. Two sites are two cases**, not a sample of layout types. The suburb is chosen as the most
+  grid-like of five candidates, so it is an extreme case by design.
+- **A7. Arrangement effect on amplification** is the ratio of amplification factors, observed
+  over rewired. It is now a secondary, descriptive quantity.
 - **A8. Readings of decision 4, confirmed by decision 5.**
-  - "All compared graphs" means every graph entering a primary comparison: both real sites, their
-    rewired ensembles, and the synthetic reference patterns with theirs.
-  - The critical-`t` estimation method and the rule for placing `t` are fixed on synthetic
-    patterns. The real graphs' critical values are then estimated by that method before any
-    real-site amplification is examined.
-  - The 1.25 margin applies to the cross-site ratio of arrangement effects: of interest at 1.25
-    or above, or 0.80 or below.
+  - "All compared graphs" means both real sites, their rewired ensembles, and the synthetic
+    patterns with theirs.
+  - The critical-`t` estimation method is fixed on synthetic patterns before it is applied to a
+    real graph.
+  - The third reading, which placed the 1.25 margin on the amplification contrast, no longer
+    applies. Amplification has no margin (decision 7).
 - **A9. Readings of decision 5, confirmed by decision 6.**
   - Raw critical `t` is reported for every graph. The cross-site comparison uses each site's
     observed-to-rewired ratio of critical `t`.
-  - A spatial block is the unit of the sub-window model: one block, one graph, one arrangement
-    effect. Twenty per site gives 40 observations.
-  - Typical cascade extent is measured by a method fixed in the pilot.
-- **A10. Agent operational readings of decision 6.** Stated so the work can proceed; not requests
-  for rulings.
-  - *"Better-matching source"* is the source whose building count agrees most closely with a
-    third source at that site. With three sources, the two that agree identify the outlier.
-  - *"Passes a visual spot check"* needs a pass level. Agent default: at least 45 of the 50
-    sampled footprints correspond to one real structure in current imagery. The level is written
-    into the gate protocol before the sample is drawn.
-  - *"Within the synthetic gradient's range"* means every arrangement metric of the real site
-    lies between the minimum and maximum of that metric across the synthetic patterns.
-  - *"Linear or spatial regression"*: ordinary least squares first; a spatial lag or error model
-    from `spreg` if the residuals show spatial autocorrelation.
+  - A spatial block is the unit of the sub-window model, if that model runs.
+- **A10. Agent operational readings of decision 6, as amended by decision 7.**
+  - *"Better-matching source" at Kibera* (three sources): the source whose building count agrees
+    most closely with a third source. The two that agree identify the outlier.
+  - *"Better-matching source" at the suburb* (two sources): no third source exists. If OSM and
+    Microsoft differ by more than 30%, the source with the higher spot-check tally is used. A
+    tie goes to the source with more footprints, because the spot check tests for false
+    footprints and cannot test for omissions.
+  - *"Passes a visual spot check"*: at least 45 of the 50 sampled footprints correspond to one
+    real structure in current imagery. The level is written into the gate protocol before the
+    sample is drawn.
+  - *"Within the synthetic gradient's range"*: every arrangement metric of the real site lies
+    between the minimum and maximum of that metric across the synthetic patterns.
   - *"Stop"* means the study does not proceed at that site with any footprint source.
+- **A11. Agent operational readings of decision 7.** Stated so the work can proceed; not requests
+  for rulings. Each is open to challenge at the methodology stage.
+  - *"Building count"* is the number of nodes in the core area after the node definition is
+    applied. Kibera's value is written `N*`. The suburb's core must hold between 0.9 `N*` and
+    1.1 `N*` nodes. Every synthetic pattern has `N*` core nodes, as near as its construction
+    allows.
+  - *Suburb window.* Each candidate's window is a square centred on the nominated neighbourhood,
+    grown until its node count is in range. The shape and centring rule are fixed before any
+    indicator is computed. Ground area is then whatever results, and is reported.
+  - *"Sole primary"* turns the two-contrast table approved in decision 6 into a rule on one
+    contrast (4.4).
+  - *"Negligible" Monte Carlo error*: the Monte Carlo standard error of `D` is at most one tenth
+    of the half-width of its block-bootstrap interval. The fraction is a convention.
+  - *"Largest connected component"* is taken on the full graph, core plus buffer, with every link
+    present. Each rewired graph has its own largest component. The share of nodes in it is
+    reported for every graph. Cluster sizes are counted over core nodes inside that component.
+  - *"Stated tolerance"*: the estimator passes if its mean over at least 100 realisations lies
+    within 0.50 ± 0.02 on a four-neighbour square lattice of at least 250,000 nodes. The gap from
+    0.50 on lattices of `N*` nodes is then reported as the estimator's size bias. Both numbers
+    are conventions set by the agent, with no evidence basis.
+  - *Clustered end of the gradient*: a Thomas process, at two or more clustering strengths taken
+    from a grid fixed in the pilot. A Matérn cluster process is the substitute if the Thomas
+    process cannot be held to `N*` nodes.
+  - *Position on the gradient* is the coefficient of variation of nearest-neighbour distance. It
+    is 0 for a lattice, about 0.52 for uniform random points (agent arithmetic for a Poisson
+    pattern), and larger for clustered patterns, so it orders all three segments on one axis.
+  - *"Completeness within the Kibera site"*: the site is divided into grid cells, and building
+    counts and total footprint area are compared across the three sources cell by cell. A cell
+    is flagged when the chosen source falls more than 30% below both others on either measure.
+  - *"Expected path"*: planning, packets, and the write-up assume the fallback form. The
+    condition for the sub-window form (decision 5) is still checked at the gate.
+  - *"Application"*: section 4.6 gives the wording.
 
 ## 4. The research question
 
@@ -280,280 +378,427 @@ With density held fixed, does the arrangement of connections in building-level p
 change how far injected classification errors spread under probabilistic propagation, and does the
 size of that effect differ between Kibera and a planned US suburban area?
 
-This is a narrowed form of the problem in `inputs/problem.md`, narrowed by the human (decisions 1
-to 4). It remains a moderation question: arrangement moderates the relationship between injected
-error and error reach.
+The wording is unchanged from v7. It is a narrowed form of the problem in `inputs/problem.md`,
+narrowed by the human (decisions 1 to 4). It remains a moderation question: arrangement moderates
+the relationship between injected error and error reach.
+
+Two clarifications of terms, which do not change the question:
+
+- "Classification errors" are flags injected at random and spread by rule A3. No classifier is
+  trained or evaluated (independent review, issue 11).
+- "How far errors spread" is measured primarily by the transmission probability at which spread
+  stops being local, relative to a rewired graph with the same degrees (decision 7).
 
 ### 4.2 Estimands
 
-Defined for a graph `G`, transmission probability `t`, and seeding rate `p`.
+**Primary (decision 7)**
 
-- **Amplification factor** `A(G; t, p)`: expected number of non-seeded nodes flagged per seeded
-  node. Primary estimand, at sub-critical `t` only.
-- **Arrangement effect** `R(G; t, p) = A(G) / mean A(rewired G)`. `R < 1` means arrangement
-  contains error relative to arbitrary wiring at the same degrees; `R > 1` means it amplifies.
-- **Cross-site contrast** `C(t, p) = log R(Kibera) − log R(suburb)`. Minimum contrast of interest:
-  `|C| ≥ log 1.25` (decision 4).
-- **Critical transmission probability** `t_c(G)`: the `t` at which spread on `G` stops being local.
-  Reported for every graph. Co-primary estimand (decision 5).
+- **Critical transmission probability** `t_c(G)`: the `t` at which spread on `G` stops being
+  local. Estimated on the largest connected component, with cluster sizes counted on core nodes.
+  Reported for every graph.
 - **Critical-value ratio** `Q(G) = t_c(G) / mean t_c(rewired G)`. `Q > 1` means arrangement delays
   the onset of extensive spread relative to arbitrary wiring at the same degrees.
-- **Cross-site critical-value contrast** `D = log Q(Kibera) − log Q(suburb)`. Minimum contrast of
-  interest: `|D| ≥ log 1.25`, that is a cross-site ratio of `Q` at or above 1.25 or at or below
-  0.80 (decision 6).
+- **Cross-site critical-value contrast** `D = log Q(Kibera) − log Q(suburb)`. **This is the sole
+  primary estimand.** Minimum contrast of interest: `|D| ≥ log 1.25`, that is a cross-site ratio
+  of `Q` at or above 1.25 or at or below 0.80 (decision 6). The 1.25 figure is a convention fixed
+  in advance; it has no basis in evidence or in a stated consequence.
+
+`t_c` does not depend on the seeding rate `p`. Rule A3 is equivalent to keeping each link with
+probability `t` and taking the clusters that contain seeds (independent review, issue 5;
+consistent with Barthélemy p. 91). The pilot confirms this on one graph.
+
+**Secondary and descriptive (decision 7)**
+
+- **Amplification factor** `A(G; t, p)`: expected number of non-seeded nodes flagged per seeded
+  node, at sub-critical `t`.
+- **Arrangement effect on amplification** `R(G; t, p) = A(G) / mean A(rewired G)`.
+- **Cross-site amplification contrast** `C(t, p) = log R(Kibera) − log R(suburb)`.
+
+These are reported with Monte Carlo intervals. They are not tested against a margin and **do not
+count as corroboration** of the primary result, whatever their size or sign.
+
+**Diagnostic (decision 7)**
+
+- **Degree assortativity** of each observed graph, with the mean over its rewired ensemble beside
+  it for reference. Reported next to `Q`. Not tested.
 
 ### 4.3 Hypotheses
 
-Fixed before the pilot (decisions 5 and 6).
+- **H1-T (primary, critical-value contrast).** `|D| ≥ log 1.25`. Two-sided. Judged on the
+  block-bootstrap interval (4.4).
+  - *Direction.* `inputs/problem.md` expects irregular layouts to spread error further. After
+    the density control, the nearest equivalent is that Kibera's arrangement delays the onset of
+    extensive spread **less** than the suburb's: `Q(Kibera) < Q(suburb)`, so `D ≤ −log 1.25`.
+    A result at `D ≥ +log 1.25` would meet the margin and be **contrary to** that expectation.
+    The mapping is the agent's, and it is partial, because the original expectation included
+    density.
+- **H1-R (effect sizes, not a test).** `Q` is reported per site with its interval. `Q > 1` is
+  expected from prior theory on lattices. If found, it is **not a finding of this study**. The
+  expectation is checked on the synthetic patterns first.
+- **H1-G (supporting, synthetic gradient).** Across synthetic patterns at fixed node count and
+  mean degree, `Q` changes monotonically with the coefficient of variation of nearest-neighbour
+  distance, from lattice through uniform random to clustered. This is the only place arrangement
+  is manipulated directly. Results are also given for each segment separately, because the
+  clustered segment changes degree heterogeneity and assortativity as well as local pattern.
+- **H1-L (supporting, learning component).** The fallback form is the expected path (decision 7):
+  a model trained on the synthetic gradient predicts each real site's `Q` from its arrangement
+  metrics. The sub-window form replaces it only if the condition in 5.7 is met.
+- **Secondary description.** `R` and `C` are reported at the pre-specified sub-critical `t` and
+  `p`. No hypothesis is attached to them.
+- **Competing explanations for a non-zero `D`.**
+  - Node definition or footprint source differs in meaning between sites.
+  - Mapping completeness is uneven inside a site, removing high-degree nodes.
+  - A residual graph-size effect within the ±10% matching band.
+  - The spatial concentration of high-degree nodes, which decision 7 counts as arrangement. A
+    reader who counts it as density would read the same `D` differently.
 
-- **H1-C (co-primary, amplification contrast).** `|C(t, p)| ≥ log 1.25` at the pre-specified
-  sub-critical `t` and `p`. Two-sided.
-- **H1-T (co-primary, critical-value contrast).** `|D| ≥ log 1.25`. Two-sided. Judged with its
-  interval (5.8).
-- **H1-R (co-primary, effect size).** `R` and `Q` are reported per site with intervals, as effect
-  sizes and not pass/fail tests. Expected `R < 1` and `Q > 1` by analogy with lattice results;
-  both expectations are checked on the synthetic patterns before real data is used.
-- **H1-G (supporting, synthetic gradient).** Along a regular-to-irregular gradient of synthetic
-  patterns at fixed intensity and mean degree, `R` and `Q` change monotonically with
-  irregularity. This is the only place arrangement is manipulated directly.
-- **H1-L (supporting, learning component).** One of two forms, decided at the gate (5.7):
-  - *Sub-window form.* In a linear or spatial regression, arrangement metrics predict per-block
-    arrangement effects better than a site-mean baseline under 5-fold spatially blocked
-    cross-validation.
-  - *Fallback form.* A model trained on the synthetic gradient predicts the two real sites'
-    critical-value ratio `Q` from their arrangement metrics.
-- **Competing explanation.** A cross-site contrast is produced by node definition, mapping
-  completeness, site size, or the two sites' differing degree sequences, not by arrangement.
+### 4.4 Decision rule for the primary contrast
 
-### 4.4 Decision rule for the two contrasts
+Decision 7 makes `D` the sole primary estimand and names the interval. The rule below is the
+one-contrast form of the table approved in decision 6.
 
-**Approved by decision 6.** Having two co-primary contrasts gives two chances to find an effect,
-so their joint reading is fixed in advance.
+| Block-bootstrap interval for `D` | Reading |
+|---|---|
+| Wholly at or beyond `+log 1.25`, or wholly at or beyond `−log 1.25` | Supports the hypothesis for the onset of extensive spread, within this model. The sign is reported against the expectation in 4.3 |
+| Wholly inside (`−log 1.25`, `+log 1.25`) | Refuted within this model, subject to section 7 |
+| Straddles either margin | **Inconclusive.** Reported as such, not as support or refutation |
 
-| H1-C (amplification, sub-critical) | H1-T (critical value) | Reading |
-|---|---|---|
-| Meets margin | Meets margin, same direction | Supports the hypothesis within this model |
-| Below margin | Meets margin | Supports the hypothesis for the onset of extensive spread only. Expected to be the common case, because `R` is forced toward 1 at low `t` |
-| Meets margin | Below margin | Not treated as support. Check whether `C` tracks the distance of `t` from each rewired ensemble's threshold (section 6) |
-| Meets margin | Meets margin, opposite direction | Reported as conflicting; no support claimed |
-| Below margin | Below margin | Refuted within this model, subject to section 7 |
-
-"Same direction" means the site whose arrangement contains spread more (`R` lower) is also the one
-whose arrangement delays onset more (`Q` higher).
-
-A contrast "meets margin" when its interval lies wholly at or beyond the margin, and is "below
-margin" when its interval lies wholly inside it. If an interval straddles the margin, that
-contrast is **inconclusive**, and so is any row that depends on it. An inconclusive result is an
-acceptable outcome of this study (decision 6) and is reported as such, not as support or
-refutation. The interval-based wording is the agent's operational reading of the approved table.
+- **The interval is the block-bootstrap interval** (decision 7). It describes how much `D` would
+  move for a different piece of the same settlements.
+- **Monte Carlo replicates** are run until their error is negligible relative to that interval
+  (A11). The Monte Carlo interval is reported beside it as a precision check only. It never
+  decides a row.
+- **Amplification plays no part in the rule.** A large `C` with an inconclusive `D` is an
+  inconclusive study.
+- An inconclusive result is an acceptable outcome (decision 6).
 
 ### 4.5 Three-step decomposition (decision D6)
 
+Reported for amplification, which is now descriptive:
+
 1. **Unadjusted.** Amplification at a common metric threshold `d`, density left free.
 2. **Mean-degree matched.** Amplification with `d` set per site to a common target mean degree.
-3. **Degree-sequence controlled.** The arrangement effects `R` and their contrast `C`.
+3. **Degree-sequence controlled.** `R` and `C`.
 
-Step 1 to 2 shows the contribution of uniform density. Step 2 to 3 shows the contribution of
-degree heterogeneity, which includes local packing unevenness and is density by definition. Step 3
-bears on the hypothesis.
+Raw `t_c` at the matched mean degree and `Q` are the counterparts of steps 2 and 3 for the
+primary quantity. A step-1 `t_c` is not added.
+
+Step 2 to 3 removes the degree sequence. It does not remove where the dense patches sit; that
+stays in step 3 by decision 7 (A5).
+
+### 4.6 Contribution statement (decision 7)
+
+This study is an **application**. It applies two established methods, the comparison of a spatial
+graph with its degree-preserving rewiring (Iotti et al. 2017) and percolation-threshold
+estimation on building locations (Behnisch et al. 2019), to building-proximity graphs at two
+sites and on a synthetic gradient. No novelty, evidence-gap, causal, policy, or external-validity
+claim is made. Any such claim needs human approval (AGENTS.md rule 9) and, for novelty, a
+literature search that has not been done.
 
 ## 5. Design components
 
-### 5.1 Synthetic pilot (first; no real data)
+### 5.1 Estimator validation and synthetic pilot (first)
 
-- Patterns: regular lattice, uniform random points, and intermediate steps, at one target mean
-  degree.
-- For each: the observed graph and its rewired ensemble.
-- Sweep `t`; estimate `t_c` for every graph. The peak in second-largest cluster size is one
-  documented estimator (Behnisch et al. p. 4, for a distance threshold); using it for `t` is an
-  agent inference.
-- Fix, before any real data is touched: the `t_c` estimator, the rule for placing `t` below the
-  lowest `t_c`, the `p` values, the rewiring settings, the interval level, and the method for
-  measuring typical cascade extent.
-- Uncertainty in `t_c` and `Q` (decision 6): many realisations, plus a bootstrap over spatial
-  blocks. The pilot tests the block bootstrap on synthetic patterns, where the answer from many
-  large independent realisations is available for comparison, and fixes block size and the number
-  of resamples.
-- The pilot sets operating values only. The co-primary estimands and the decision rule in 4.4 are
-  already fixed and are not revisited in light of pilot results (decision 5).
-- Check that the rewired ensemble is fully mixed. An edge-crossing swap can leave spatially
-  correlated edge pairs under partial rewiring (Iotti et al. p. 3); `networkx.double_edge_swap`
-  is an edge-crossing swap.
-- Record which graph has the lowest `t_c`. This is not assumed.
+**Step A. Validate the `t_c` estimator on a square lattice (decision 7). No data needed.**
 
-### 5.2 Pre-analysis gate: node definition and data adequacy (required)
+- Graph: four-neighbour square lattice. Known bond percolation threshold: 0.5 (Barthélemy
+  pp. 85–86).
+- Candidate estimator: the `t` at which the second-largest cluster peaks (documented for a
+  distance threshold in Behnisch et al. p. 4; its use for `t` is an agent inference).
+- Pass criterion: A11. **No other graph is analysed until the pass is recorded.**
+- Then run the estimator on lattices of `N*` nodes and report the gap from 0.5 as its size bias.
+- If the estimator fails, it is replaced and the validation repeated. The failed attempt is kept
+  in the record.
 
-- Download OSM building footprints for each study area plus a buffer; record the snapshot date.
-- Tabulate building counts, footprint areas, nearest-neighbour distances, and site extents.
-- **Source rule (decision 6).** Compare OSM building counts with Microsoft and Google footprints
-  at each site. If OSM differs from either by more than 30%, switch that site to the
-  better-matching source. Each source used must pass a visual spot check of 50 randomly sampled
-  buildings. Stop only if no source passes.
-- Record, per site, which source was used, the three counts, the spot-check tallies, and the
-  source dates.
-- Fix the node definition: minimum footprint area and whether touching polygons are merged.
-  Centroid distance and a minimum-area filter both have precedent (Behnisch et al. p. 2).
-- **Suburb nomination and selection (decisions 5 and 6).**
-  1. Nominate 5 planned suburban neighbourhoods in one metro, of comparable extent to the Kibera
-     study area, each with a one-line justification.
-  2. **Human approval of the five, before any indicator is computed.**
-  3. For each, compute orientation order and dead-end share on its street network with OSMnx
-     (indicators as defined in Boeing 2019, pp. 5–6).
-  4. Rank by orientation order descending and by dead-end share ascending; select the lowest
-     summed rank; break ties by orientation order. City-wide values are not used.
-- The rule uses street indicators only and no outcome of the study, so it cannot be tuned toward
-  a result. It does not guarantee a regular *building* pattern; that is measured afterwards (5.5).
-- Count the spatial blocks each site supports and decide which form of the learning component
-  runs (5.7).
+**Step B. Synthetic pilot at `N*` nodes.**
+
+- `N*` comes from the Kibera count step in 5.2. That step reads footprints and counts nodes. It
+  computes no graph outcome. Pilot code can be developed at a placeholder size; the runs that fix
+  operating values use `N*`.
+- Patterns: the gradient in 5.4, each with a core and a buffer built as in 5.8.
+- For each: the observed graph and its rewired ensemble; `t_c`, `Q`, assortativity, and the
+  largest-component share.
+- Fix, before any propagation or threshold result on a real graph is seen:
+  - the estimator settings, including a rule for curves with more than one peak;
+  - the block-bootstrap scheme, block size, and number of resamples;
+  - the rewiring settings and the mixing check;
+  - the target mean degree and the buffer width as a multiple of `d`;
+  - the Thomas-process parameter grid;
+  - the `t` and `p` values for the secondary amplification runs.
+- Checks:
+  - **Cascade against bond percolation.** Simulated cascades and link-removal clusters give the
+    same `t_c` on one graph.
+  - **Rewiring is fully mixed.** An edge-crossing swap can leave spatially correlated edge pairs
+    under partial rewiring (Iotti et al. p. 3); `networkx.double_edge_swap` is such a swap.
+  - **Block bootstrap against independent realisations.** On synthetic patterns the spread over
+    many independent realisations is available for comparison.
+  - Record which graph has the lowest `t_c`, and the sign of `Q − 1`. Neither is assumed.
+- The pilot sets operating values only. The primary estimand, margin, and rule are fixed.
+
+### 5.2 Pre-analysis gate: sources, completeness, node definition, node count (required)
+
+**Kibera**
+
+1. Download OSM, Microsoft, and Google footprints for the study area plus a buffer. Record each
+   source's date. Project to EPSG:32737.
+2. Tabulate building counts, footprint areas, and nearest-neighbour distances per source.
+3. **Source rule (decisions 6 and 7).** If the OSM count differs from Microsoft or Google by more
+   than 30%, switch to the better-matching source (A10). The source used must pass a visual spot
+   check of 50 randomly sampled buildings. Stop only if no source passes.
+4. **Within-site completeness (decision 7).** Compare counts and total footprint area across the
+   three sources by grid cell (A11). Map the result. Record every flagged cell.
+5. Fix the node definition: minimum footprint area, and whether touching polygons are merged.
+   Centroid distance and a minimum-area filter have precedent (Behnisch et al. p. 2).
+6. Record `N*`, the core node count.
+
+**Suburb**
+
+7. Confirm that OSM and Microsoft footprints both exist for the metro under consideration. OSM
+   building coverage in United States cities can be patchy (Herfort et al. p. 6).
+8. Nominate 5 planned suburban neighbourhoods in one metro, each with a one-line justification.
+9. **Human approval of the five, before any indicator is computed** (decision 6).
+10. Size each candidate's window to hold 0.9 `N*` to 1.1 `N*` nodes under the same node
+    definition (A11). Windows are sized on Microsoft footprints for all five, so that patchy OSM
+    coverage does not decide the window.
+11. Compute orientation order and dead-end share on each window's street network with OSMnx
+    (indicators as defined in Boeing 2019, pp. 5–6).
+12. Rank by orientation order descending and by dead-end share ascending; select the lowest
+    summed rank; break ties by orientation order. City-wide values are not used.
+13. **Source rule at the selected suburb (decision 7).** Compare OSM and Microsoft. Apply the 30%
+    rule with the two-source reading in A10. Spot-check 50 randomly sampled buildings. If the
+    chosen source changes the count, re-size the window once to stay within ±10% of `N*`.
+
+**Both sites**
+
+14. Record, per site: the source used, all counts, spot-check tallies, source dates, ground area,
+    and core node count.
+15. Count the spatial blocks each site supports and record whether the sub-window condition in
+    5.7 is met.
+
+The suburb rule uses street indicators and building counts only, and no outcome of the study, so
+it cannot be tuned toward a result. It does not guarantee a regular *building* pattern; that is
+measured afterwards (5.5).
 
 ### 5.3 Graphs
 
 - Project to local UTM (EPSG:32737 for Nairobi; the suburb's zone once chosen).
-- Distance-band graphs via libpysal, converted to NetworkX, at the common target mean degree.
-- Report the `d` each site needs and what it physically spans, as a descriptive result.
-- Rewired ensembles per graph, using the settings fixed in 5.1.
-- Estimate each real graph's `t_c` and `Q` by the fixed method; confirm the pre-specified `t`
-  values lie below the lowest `t_c`. Only then examine amplification.
+- Distance-band graphs via libpysal, converted to NetworkX. `d` is set so that the mean degree of
+  **core** nodes equals the target (agent default, following the edge rule in 5.8).
+- Report the `d` each site needs, what it physically spans, and each site's ground area, as
+  descriptive results. At matched node count the suburb will cover a much larger area than
+  Kibera, and its `d` will be much larger.
+- Rewire the **full** graph, core plus buffer (decision 7), using the settings fixed in 5.1.
+- For every observed and rewired graph: find the largest connected component, record its share of
+  nodes, and estimate `t_c` on it by the validated method. Compute `Q` and `D`.
+- Report degree assortativity for each observed graph.
+- Only then run the secondary amplification analysis, at `t` below the lowest `t_c` of all
+  compared graphs (decision 4).
 
-### 5.4 Reference patterns and gradient (decisions D2, D4)
+### 5.4 Synthetic gradient (decisions D2, D4, 7)
 
-- The synthetic patterns of 5.1, at the real sites' intensity and mean degree, each with `R`,
-  `t_c`, and `Q`.
-- Both real sites are placed on the gradient using the arrangement metrics in 5.5.
+Three segments, all at `N*` core nodes and the target mean degree:
 
-### 5.5 Arrangement metrics
+1. **Regular lattice**, then lattices with increasing random displacement of points.
+2. **Uniform random points.**
+3. **Clustered points** from a Thomas process at two or more clustering strengths (A11).
 
-Per site, per synthetic pattern, and per sub-window if 5.7 runs:
+- Each pattern has `R`, `t_c`, `Q`, assortativity, largest-component share, and the 5.5 metrics.
+- Position on the gradient is the coefficient of variation of nearest-neighbour distance (A11).
+- Both real sites are placed on the gradient by that metric. Their other metrics are reported
+  beside it, since a site can sit at different positions on different metrics.
+- Clustered patterns under a distance band are expected to fragment more and to have more uneven
+  degrees than the other segments (agent inference). The largest-component share and
+  assortativity are therefore read alongside `Q` on this segment.
 
-- coefficient of variation of nearest-neighbour distance;
+### 5.5 Arrangement metrics and diagnostic
+
+Per site and per synthetic pattern (and per sub-window if 5.7 runs in that form):
+
+- coefficient of variation of nearest-neighbour distance (also the gradient axis);
 - a pair-correlation or Ripley's K summary;
-- mean clustering coefficient at the target mean degree;
+- mean clustering coefficient at the target mean degree. This is expected to be nearly constant
+  along the random part of the gradient (Barthélemy pp. 43–44), so it may add little;
 - an orientation-entropy measure adapted from Boeing (2019); the adaptation from street bearings
   to building or local street orientation is an agent proposal.
 
+Diagnostic, reported and not used as a predictor: degree assortativity (A5).
+
 ### 5.6 Sensitivity analyses
 
-- **2-hop-limited propagation** (decision 4).
-- Target mean degree; `p`; `t` across the sub-critical grid.
-- Node definition; centroid versus footprint-edge distance.
+For `Q` and `D`:
+
+- target mean degree;
+- node definition; centroid versus footprint-edge distance;
 - k-nearest-neighbour graphs (robustness only), with the symmetrisation rule stated.
 
-### 5.7 Learning component (decisions D5, 4, 5)
+For amplification only:
 
-Exactly one of the two forms runs. The choice is made at the gate from measured extents, before
-any propagation result on real data is seen.
+- 2-hop-limited propagation (decision 4);
+- `p`; `t` across the sub-critical grid.
 
-**Condition.** The sub-window form runs only if **each site** yields at least 20 spatial blocks,
-each wider than the typical cascade extent. If either site falls short, the fallback runs.
+### 5.7 Learning component (decisions D5, 4, 5, 6, 7)
 
-**Sub-window form**
+Exactly one form runs. **The fallback is the expected path** (decision 7).
 
-- Unit: a spatial block with its own graph, rewired ensemble, and arrangement effect `R`.
-- Response: log `R` per block. Predictors: the 5.5 metrics.
-- Model: linear regression, or a spatial lag or error model if residuals are spatially
-  autocorrelated, against a site-mean baseline. No tree-based model, given 40 observations
+**Fallback form (expected)**
+
+- Training data: synthetic gradient patterns across all three segments, each with its 5.5 metrics
+  and estimated `Q`.
+- Model: a **linear model is primary**, with a tree-based model alongside for comparison. This
+  reverses the v7 default (O9) on the independent review's point that a tree-based model returns
+  a constant outside its training range and so cannot give a meaningful value for a site
+  reported as extrapolation. It is an agent default, not a ruling.
+- Test: the two real sites. A prediction counts as in-sample only if the site's metrics fall
+  within the synthetic gradient's range (A10); otherwise it is reported as extrapolation
   (decision 6).
-- Validation: 5-fold spatially blocked cross-validation. Roberts et al. (pp. 918–920) require
-  blocks larger than the residual autocorrelation range; the cascade-extent condition is the
-  project's stand-in for that and should be checked against residual autocorrelation after
-  fitting.
-- Leave-one-site-out reported separately, labelled as extrapolation.
+- **This form does not exercise spatial-leakage control** (decision 5). Training and test data
+  share no space, so the leakage described by Roberts et al. and Sun et al. cannot occur, and
+  cannot be shown to be controlled either. The write-up must say that the spatial-leakage
+  requirement in `inputs/problem.md` is described and not demonstrated.
 
-**Fallback form**
+**Sub-window form (only if its condition is met)**
 
-- Training data: synthetic gradient patterns, each with its arrangement metrics and estimated
-  critical-value ratio `Q`.
-- Model: one regressor predicting `Q` from the 5.5 metrics. Decision 6 rules out a tree-based
-  model for the sub-window form only; here the training set is synthetic and can be made as large
-  as needed, so the tree-based model stated in v6 is kept, with a linear model alongside for
-  comparison.
-- Test: the two real sites. A site's prediction counts as in-sample only if its arrangement
-  metrics fall within the synthetic gradient's range; otherwise it is reported as extrapolation
-  (decision 6).
-- **This form does not exercise spatial-leakage control** (decision 5). That must be stated in
-  the write-up, together with the fact that review issue 10 is then only partly addressed.
+- Condition (decision 5): each site yields at least 20 spatial blocks, each wider than the
+  typical cascade extent. At a matched count of `N*` nodes this is not expected.
+- Unit: a spatial block with its own graph, rewired ensemble, and `R`. Response: log `R` per
+  block, which is now a secondary quantity. Predictors: the 5.5 metrics.
+- Model: linear regression, or a spatial lag or error model from `spreg` if residuals are
+  spatially autocorrelated, against a site-mean baseline (decision 6).
+- Validation: 5-fold spatially blocked cross-validation, with blocks checked against the range of
+  residual autocorrelation (Roberts et al. pp. 918–920).
 
-### 5.8 Edge handling and variability
+### 5.8 Edge handling and intervals (decision 7)
 
-- Buffer nodes carry propagation; estimands are computed on core nodes; the core share is reported.
-- Monte Carlo intervals give precision. Spread across spatial blocks within each site gives
-  variability, if extents allow blocks at all. No significance test is reported for the site term.
-- Intervals for `t_c`, `Q`, and `D` come from many realisations and a bootstrap over spatial
-  blocks (decision 6), with settings fixed in the pilot.
+**One rule for every graph: real, synthetic, observed, rewired.**
+
+- Each graph has a core and a buffer. The buffer is a band of real buildings (or synthetic
+  points) around the core, of a width fixed in the pilot as a multiple of `d`.
+- The **full graph, core plus buffer, is rewired.**
+- Propagation and cluster formation run on the full graph.
+- **All outcomes are computed on core nodes only**: cluster sizes for `t_c`, flagged counts for
+  amplification, and assortativity and arrangement metrics where they are node-based.
+- The core share of nodes is reported for every graph.
+
+In a rewired graph the core is the same set of node labels as in the observed graph. Those nodes
+no longer form a spatial interior, because rewired links join any two nodes. This is a
+consequence of the rule and is recorded as a concern (M5).
+
+**Intervals**
+
+- The interval for `Q` and `D` is the **block-bootstrap interval** over spatial blocks of the
+  observed graph, with the scheme fixed in the pilot.
+- Monte Carlo replicates continue until the criterion in A11 is met. Their interval is reported
+  as precision only.
+- No significance test is reported for the site term.
 
 ## 6. Threats to validity
 
-- **The arrangement effect is forced toward 1 at low `t`.** *Agent derivation; to be checked in
-  the pilot.* To first order in `t`, the expected number flagged per seed is `t` times the mean
-  degree on any graph, whatever its arrangement. So `R` tends to 1 and `C` to 0 as `t` falls.
-  Decision 5 answers this by making critical `t` co-primary; H1-C alone being null is not read as
-  refutation (4.4).
-- **The amplification contrast may reflect how close `t` is to each null's threshold.** *Agent
-  inference.* The denominator of `R` depends on the rewired graph's degree sequence. If one
-  site's rewired ensemble is nearer its own threshold at the chosen `t`, its `R` is pulled down
-  for a reason that is density by definition. This is why H1-C without H1-T is not treated as
-  support (4.4).
-- **`Q` is a better normalisation but not a proven one.** *Agent inference.* Dividing by the
-  rewired critical value removes what the degree sequence alone determines. Whether arrangement
-  and degree heterogeneity combine multiplicatively in `t_c` is not established, so `Q` may still
-  carry some density signal. The synthetic gradient is the available check.
-- **The co-primary critical value is the noisiest quantity in the study.** Both sites are small,
-  and critical values estimated on small areas are noisy (Behnisch et al. p. 4; Fagundes et al.
-  p. 1). Rewired graphs may also have less sharply defined transitions at this size. If the
-  uncertainty in `D` is wide, H1-T will be inconclusive. Since 4.4 does not count H1-C alone as
-  support, the study as a whole would then be inconclusive.
-- **Estimating `t_c` requires runs at and above threshold**, where spread reaches the buffer and
-  the edge of the study area. Edge handling in 5.8 was designed for local spread.
+**Primary estimand**
+
+- **The critical value is the noisiest quantity in the study**, and it now carries the whole
+  result. Critical values on small areas are noisy (Behnisch et al. p. 4; Fagundes et al. p. 1).
+  A wide interval for `D` makes the study inconclusive.
 - **A block bootstrap of a whole-graph quantity is not straightforward.** *Agent inference.*
-  Critical `t` belongs to a connected graph. Resampling blocks cuts the links that cross block
-  boundaries, and a critical value estimated on a small block is shifted relative to the whole
-  site. The intervals may therefore be biased or too wide. The pilot checks this on synthetic
-  patterns; if the bootstrap behaves poorly there, that is reported as a limitation of the
-  intervals, and a wide interval leads to an inconclusive result under 4.4.
-- **The source rule can leave the two sites on different footprint sources.** Node comparability
-  across sites is then weaker, and source dates may differ.
-- **A count difference does not say which source is wrong.** Machine-derived footprints are least
-  certain in dense contiguous settlement (Sirko et al. pp. 1, 4), where they may merge structures.
-  In Kibera a large difference could therefore reflect the comparison data. The 50-building spot
-  check is the safeguard; it tests whether sampled footprints are real, and is less able to detect
-  buildings that a source omits.
-- **Sub-window form: 40 observations.** Cross-validated skill will have high variance even with a
-  linear model, and a null result will be weak evidence. Per-block `R` is noisier than site-level
-  `R`. The arrangement metrics may be strongly correlated with each other.
-- **Fallback form: two test cases.** Two predictions give two errors, not an estimate of skill.
-  A site inside each metric's range can still lie outside the region the synthetic patterns
-  jointly cover, so "in-sample" by the range rule is a weaker statement than it sounds. Training
-  rows from the same gradient step are not independent of each other.
-- **Suburb rule.** Nomination of the five is a judgement, made visible by the one-line
-  justifications and the approval step. The ranking uses street layout, which need not track
-  building arrangement.
+  `t_c` belongs to a connected graph. Resampling blocks cuts the links that cross block
+  boundaries, and a value estimated on a small block is shifted relative to the whole site. The
+  rewired graph has no spatial blocks at all. The interval may be biased or too wide. The pilot
+  checks it on synthetic patterns.
+- **Matching node count removes the main size confound, not all of it.** Sites may differ by up
+  to 10%. The observed and rewired graphs may also respond to size differently, in which case
+  `Q` keeps a size dependence that matching at one `N*` does not reveal. The scaling laws quoted
+  in the independent review are unsourced.
+- **The validated estimator may still be biased at `N*`.** The pass criterion binds on a large
+  lattice. The bias at `N*` is reported, not gated. It cancels in `D` only to the extent that it
+  is the same for both sites.
+- **A square lattice is the easy case.** Passing there does not show the estimator behaves on
+  patchy graphs, where the second-largest-cluster curve can have several peaks.
+- **The largest component may be a different share of each site.** A settlement cut by a rail
+  line or a suburb cut by arterial roads may split at the chosen `d`. `Q` then describes
+  different fractions of the two sites. No minimum share is set.
+- **`Q` is a normalisation, not a proven one.** *Agent inference.* Whether arrangement and degree
+  heterogeneity combine multiplicatively in `t_c` is not established.
+- **The arrangement effect includes the clumping of dense patches** (A5). A non-zero `D` may come
+  from that clumping and not from local connection pattern. Assortativity helps a reader judge
+  this. Nothing in the design separates the two.
+
+**Edge rule**
+
+- **Core nodes in a rewired graph are not a spatial interior.** Measuring on the same node labels
+  keeps the rule uniform, but the buffer protects the observed graph from boundary truncation and
+  does nothing comparable for the rewired graph.
+- **Runs near and above threshold reach the buffer's outer edge.** Outer buffer nodes have
+  truncated neighbourhoods, which lowers their degree in the observed graph.
+
+**Data**
+
+- **Uneven completeness would bias degree where it matters most.** *Agent inference from Yeboah
+  et al.* If the densest patches are the least completely mapped, the missing buildings are
+  high-degree nodes, and the bias enters `Q` directly.
+- **Yeboah et al. motivates the check; it does not predict the result.** Its sites are
+  anonymised, it reports one figure per site, and its low figures describe remote tracing before
+  fieldwork.
+- **The within-site check compares sources with each other.** If all three under-map the same
+  cells, no cell is flagged. Machine-derived sources are weakest in dense contiguous settlement
+  (Sirko et al. pp. 1, 4).
+- **A count difference does not say which source is wrong.** In Nairobi, OSM and machine-derived
+  polygons often do not match one to one (Okyere et al. pp. 14–16). The 30% rule could move
+  Kibera off OSM for a reason unrelated to OSM's quality.
+- **Two sources at the suburb may not be independent.** OSM footprints there may have been
+  imported from another dataset (Herfort et al. p. 9, in general terms). Agreement would then
+  show common origin, not accuracy. The spot check cannot detect omitted buildings.
+- **The sites may end on different footprint sources**, with different dates and different
+  meanings of "one polygon".
+- **Temporal misalignment** between sources and between sites.
+
+**Design**
+
+- **Count matching makes the two sites very different in ground area and in `d`.** The same
+  per-link probability `t` then spans very different physical distances. Decision 2 treats this
+  as descriptive; it still limits what "the same error process" means across sites.
+- **Site confounding.** Two places are two cases (A6). A non-zero `D` cannot be attributed to
+  layout type. The gradient reduces this; it does not remove it.
+- **The gradient may not reach either site.** Real building patterns cannot overlap, and they are
+  patchy and laid out in rows. Three synthetic segments may contain neither site.
+- **The clustered segment changes several things at once**: local pattern, degree heterogeneity,
+  assortativity, and connectedness.
+- **The rewired null is not spatial.** `Q` measures spatial arrangement against arbitrary wiring.
+- **Rewiring bias.** Incomplete mixing would leave spatial correlation in the null.
 - **Rule realism.** Results describe an independent cascade. The one documented scoring method in
-  the evidence works differently (A4).
-- **Site confounding.** A non-zero contrast between two places cannot be attributed to layout
-  type. The gradient reduces this; it does not remove it.
-- **The rewired null is not spatial.** `R` measures spatial arrangement against arbitrary wiring.
-  The reference patterns separate irregular from regular.
-- **Rewiring bias.** Incomplete mixing would leave spatial correlation in the null (5.1).
-- **Node comparability.** A polygon may mean different things at the two sites.
-- **MAUP.** Scale form: target mean degree and `d`. Zoning form: node merging, and sub-window size
-  and origin if 5.7 runs.
-- **Temporal misalignment** between the OSM snapshot and comparison footprints.
-- **Sub-window form, additionally:** ecological fallacy; leakage between neighbouring blocks;
-  near-circular prediction of one graph statistic from others of the same graph.
+  the evidence works differently and may respond to degree in the opposite direction (A4).
+- **MAUP.** Scale form: target mean degree and `d`. Zoning form: node merging, block layout for
+  the bootstrap, and grid cells for the completeness check.
+- **Suburb rule.** Nomination is a judgement, made visible by the justifications and the approval
+  step. The ranking uses street layout, which need not track building arrangement.
+
+**Learning component**
+
+- **Fallback form: two test cases.** Two predictions give two errors, not an estimate of skill.
+  A site inside each metric's range can still lie outside the region the patterns jointly cover.
+  Training rows from the same gradient step are not independent.
+- **Fallback form: no leakage control is exercised.**
+
+**Secondary quantities**
+
+- **Amplification is forced toward equality at low `t`.** To first order in `t`, the number
+  flagged per seed is `t` times the mean degree on any graph (agent derivation; consistent with
+  Ghadiri et al. p. 6 for a related quantity). `R` then mostly reflects how far `t` is from each
+  rewired ensemble's threshold, which the degree sequence sets. This is why decision 7 makes it
+  descriptive.
 
 ## 7. What would weaken or refute the hypothesis
 
-- **Refuted within this model:** both contrasts fall below their margins (last row of 4.4),
-  **and** the two sites sit at similar positions on the synthetic gradient. If an interval
-  straddles its margin, the result is inconclusive, not a refutation.
-- **Not attributable to arrangement:** a contrast changes sign across node definitions, or `C`
-  tracks the distance of `t` from each rewired ensemble's threshold.
-- **H1-G fails:** neither `R` nor `Q` varies with irregularity along the synthetic gradient. This
-  undercuts the mechanism even if the real sites differ.
-- **Step 2 differs but step 3 does not:** the site difference is carried by degree distribution,
-  which is density by definition.
-- **H1-L, sub-window form, fails:** no skill over the site-mean baseline under blocked
-  cross-validation, or skill that collapses relative to random folds.
+- **Refuted within this model:** the block-bootstrap interval for `D` lies wholly inside the
+  margin, **and** the two sites sit at similar positions on the synthetic gradient.
+- **Inconclusive:** the interval straddles a margin. Not a refutation and not support.
+- **Not attributable to arrangement:**
+  - `D` changes sign across node definitions or footprint sources;
+  - the largest-component shares of the two sites differ widely;
+  - flagged completeness cells at Kibera coincide with its densest patches.
+- **Read with caution:** `D` meets the margin and the two sites differ sharply in assortativity.
+  The result then rests largely on the clumping of dense patches.
+- **H1-G fails:** `Q` does not vary with the gradient metric. This undercuts the mechanism even if
+  the real sites differ.
+- **The estimator fails validation:** no result on any graph is reported until it passes.
 - **H1-L, fallback form, fails:** the model's errors on the two real sites are no smaller than
   those of a baseline that predicts the mean `Q` of the synthetic patterns. With two cases this
   is weak evidence in either direction, and weaker still for a site reported as extrapolation.
@@ -564,73 +809,157 @@ each wider than the typical cascade extent. If either site falls short, the fall
 |---|---|
 | RQ1 | The approved question (section 4) |
 | RQ2 threshold sensitivity | Absorbed as 5.6 |
-| RQ3 structural predictors | Reduced; learning component 5.7, sub-window or fallback form |
+| RQ3 structural predictors | Reduced; learning component 5.7, fallback form expected |
 | RQ4 clustered seeding | Dropped |
 | RQ5 footprint robustness | Pre-analysis gate 5.2 |
 
-## 9. Response to the review
+## 9. Response to the reviews
 
-| Review issue | Resolution |
+### 9.1 Independent review (`outputs/scientific_critic_independent.md`)
+
+| Review issue | Severity given | Resolution in v8 |
+|---|---|---|
+| 1. Cross-site contrast confounded with graph size | Blocking for H1-T | Suburb matched to Kibera on node count within ±10%; synthetic patterns at the same count (decision 7). Residual size effect recorded as M3 |
+| 2. `Q > 1` and `R < 1` near-guaranteed; low-`t` test adds little | Major | `D` is the sole primary estimand; amplification is descriptive and is not corroboration (decision 7). `Q > 1` stated as expected and not a finding (4.3) |
+| 3. Decision rule does not name its interval | Blocking for the rule | Block-bootstrap interval decides; Monte Carlo is a precision check (decision 7). The review preferred window subsampling; the ruling keeps the block bootstrap (M1) |
+| 4. Rewiring does not remove all of what D6 calls density | Major | Arrangement explicitly includes spatial concentration of high-degree nodes; assortativity reported; no second null (decision 7; A5) |
+| 5. Critical value may be undefined; estimator uncalibrated | Major | Largest component with its share reported; estimator validated on the square lattice before any other use (decision 7). No minimum share is set (M6) |
+| 6. Gate assumes three independent sources at both sites | Major | Three sources at Kibera, two at the suburb, spot check at both, within-site completeness at Kibera (decision 7). No omission check at the suburb (M10) |
+| 7. Gradient may not reach either site | Major | Gradient extended to clustered patterns (decision 7). No minimum-spacing pattern was added (M11) |
+| 8. Edge handling specified for local spread on the observed graph only | Major | Full graph rewired; all outcomes on core nodes; one rule for every graph (decision 7). `d` calibrated on core nodes as an agent default |
+| 9. Sub-window model unlikely to run or inform | Major for H1-L | Fallback is the expected path (decision 7). Linear model made primary as an agent default |
+| 10. No evidence gap established | Major for novelty | No novelty wording; contribution described as an application (decision 7; 4.6). No literature search has been done (M14) |
+| 11. Result is about a cascade model | Minor | A4 retained; terms clarified under 4.1 without rewording the question (M15) |
+| 12. Smaller points | Minor | Margin called a convention (4.2). Direction mapped to the sign of `D` (4.3). Suburb stated as an extreme case (A6). Clustering metric's limit noted (5.5). Rewired fragmentation handled by the largest-component rule. Section 1 corrected |
+
+### 9.2 Earlier review (`outputs/history/question_review.md`)
+
+Resolutions are as recorded in v7 section 9, with these changes:
+
+| Earlier issue | Change in v8 |
 |---|---|
-| 1. Deterministic rule; slope estimand undefined | Probabilistic rule; amplification factor at pre-specified sub-critical `t` and `p`, with critical `t` co-primary |
-| 2. Rewiring test passes for any spatial layout | Effect size, plus spatial reference patterns. Direction now treated as open and checked in the pilot |
-| 3. Decision 2 may control away irregularity | Accepted with the three-step decomposition |
-| 4. One pair of sites | Synthetic gradient; within-site blocks only if each site yields 20. Partly addressed |
-| 5. Irregularity unmeasured | Metrics named (5.5); suburb chosen by a fixed ranking rule on measured indicators. Not yet measured |
-| 6. Contrast depends on scale | Ratio scale; margin fixed at 1.25 |
-| 7. Replicates are not places | Monte Carlo intervals for precision; block spread for variability where possible; no significance test for the site term |
-| 8. Node comparability | Pre-analysis gate, with precedent for the filter |
-| 9. Edge handling | Section 5.8. Simplified by the sub-critical restriction, since spread stays local |
-| 10. No learning component; leakage unaddressed | A learning component always runs. Leakage control is exercised only in the sub-window form; under the fallback this is stated as not addressed |
-| 11. No evidence gap established | Still open. The spatial-versus-rewired comparison is established and must not be presented as a finding |
+| 1. Estimand undefined | The primary estimand is now `D` alone |
+| 4. One pair of sites | Unchanged in substance; the gradient now has three segments |
+| 9. Edge handling | Replaced by the single rule in 5.8 |
+| 10. Learning component; leakage | Fallback expected; leakage control described, not demonstrated |
+| 11. No evidence gap established | Still open; no novelty wording is used |
 
-## 10. Unresolved issues
+## 10. Open points
 
-The question is frozen (decision 6). Nothing here requests a ruling. The independent reviewer
-should treat every item as open to challenge.
+The question is frozen (decision 7). **Nothing here requests a ruling.** Items are grouped by who
+settles them.
 
-Resolved by decision 6: the margin for the critical-value contrast; the decision table; the
-uncertainty method; the fallback target; the sub-window model type; suburb nomination and
-tie-breaking; the data-gate rule.
+### 10.1 Operating values the pilot fixes
 
-**Operating values the pilot fixes, before any real data is touched**
-
-- **O1. Placement of `t` within the sub-critical range**, for example as fixed fractions of the
-  lowest `t_c`.
-- **O2. Target mean degree.** A square lattice under a distance rule only admits certain degrees
+- **O1. `t` and `p` for the secondary amplification runs.** All `t` lie below the lowest `t_c` of
+  all compared graphs (decision 4). Each is also reported as a fraction of that graph's own
+  rewired threshold, as the independent review suggested.
+- **O2. Target mean degree.** A square lattice under a distance rule admits only certain degrees
   (4, 8, 12), and a uniform random pattern needs a mean degree above about 4.5 to hold together
-  (agent arithmetic from Barthélemy p. 43). One prior study used 8 (Iotti et al. p. 4).
-- **O3. Rewiring details.** Whether rewired graphs may fragment, number of swaps, ensemble size,
-  and the mixing check.
-- **O4. `t_c` estimator, interval level, block size and resample count for the bootstrap, and the
-  cascade-extent measure.**
+  (agent arithmetic from Barthélemy p. 43). One prior study used 8 (Iotti et al. p. 4). The
+  validation lattice in step A is four-neighbour whatever value is chosen here.
+- **O3. Rewiring details.** Number of swaps, ensemble size, and the mixing check.
+- **O4. Estimator settings**, including the rule for curves with more than one peak.
+- **O5. Block-bootstrap scheme**, block size, number of resamples, and interval level.
+- **O6. Buffer width** as a multiple of `d`.
+- **O7. Thomas-process parameter grid** and the number of displaced-lattice steps.
 
-**Agent defaults in force unless the review changes them** (assumption A10)
+### 10.2 Agent defaults in force (A10, A11)
 
-- **O5.** "Better-matching source" identified by agreement with a third source.
-- **O6.** Spot-check pass level of 45 of 50, written into the gate protocol before sampling.
-- **O7.** "Within range" judged metric by metric.
-- **O8.** Interval-based reading of "meets margin", "below margin", and "inconclusive" (4.4).
-- **O9.** Fallback model type: tree-based, with a linear model for comparison (5.7).
+Listed so the methodology critic can challenge each one.
 
-**Standing limitations**
+- **G1.** Node count means core nodes after the node definition; `N*` is Kibera's.
+- **G2.** Suburb windows are squares grown to the count, sized on Microsoft footprints.
+- **G3.** Monte Carlo error is negligible at one tenth of the bootstrap half-width.
+- **G4.** Largest component taken per graph on core plus buffer; sizes counted on core nodes.
+- **G5.** Validation tolerance 0.50 ± 0.02 on a lattice of at least 250,000 nodes.
+- **G6.** Thomas process for the clustered segment; Matérn cluster as substitute.
+- **G7.** Gradient position is the coefficient of variation of nearest-neighbour distance.
+- **G8.** A completeness cell is flagged at more than 30% below both other sources.
+- **G9.** Two-source rule at the suburb: higher spot-check tally, then more footprints.
+- **G10.** Spot-check pass level 45 of 50.
+- **G11.** `d` calibrated on core-node mean degree.
+- **G12.** Fallback model: linear primary, tree-based alongside.
+- **G13.** "Within range" judged metric by metric.
 
-- **L1. Evidence.** Eleven papers read, several in part; eleven listed items unread. No
-  literature search. No novelty, causal, policy, or external-validity claim without human
-  approval.
-- **L2. Independent review.** Outstanding. The existing review was written by the same model in
-  the same conversation as the question, and predates decisions 3 to 6.
+### 10.3 Concerns for the methodology stage
+
+- **M1. What a block bootstrap of `t_c` is.** The scheme is undefined: how blocks are recombined
+  into a graph, how links across block boundaries are treated, and what the rewired denominator
+  is for each resample. The independent review preferred non-overlapping windows of equal node
+  count. If the pilot shows the bootstrap behaving poorly, that is a limitation of the interval
+  and most likely an inconclusive study.
+- **M2. Where the tolerance binds.** G5 gates on a large lattice and only reports the bias at
+  `N*`. The methodology stage should decide whether a bound at `N*` is also needed.
+- **M3. Residual size effect.** A cheap pilot check is `Q` for one fixed synthetic pattern at
+  0.9 `N*`, `N*`, and 1.1 `N*`. If `Q` moves by more than a small fraction of `log 1.25` across
+  that band, ±10% is too loose. This is a suggestion, not a test in the design.
+- **M4. Ground area and `d` after count matching.** The suburb window may be many times
+  Kibera's area. Check that the street indicators in step 11 are still meaningful on a window of
+  that size, and that the buffer rule is workable.
+- **M5. Core nodes in rewired graphs.** Compare `Q` with and without a buffer on one synthetic
+  pattern to see how much the uniform rule matters.
+- **M6. Largest-component share.** No minimum is set. The independent review suggested 90% of
+  core nodes. The methodology stage should state what is done when the share is low or differs
+  between sites.
+- **M7. Reading `D` when assortativity differs between sites.** No test separates local pattern
+  from the clumping of dense patches. The write-up needs agreed wording for that case.
+- **M8. What follows a flagged completeness cell.** Decision 7 requires the check, not a
+  response. Agent suggestion: report the map, proceed on the gate-chosen source, and repeat `Q`
+  on the source with the highest count in the flagged cells as a sensitivity run. The Map Kibera
+  documentation, which would say how Kibera's buildings were mapped, has not been supplied.
+- **M9. The 30% rule at Kibera.** City-wide figures suggest it will trigger (Okyere et al.). A
+  switch decided by counts could select a machine-derived source in the setting where such
+  sources are weakest. Comparing total built area as well as counts would be less sensitive to
+  merged polygons.
+- **M10. The suburb gate.** Two sources that may share an origin; no check for omitted
+  buildings; OSM coverage that may be near zero. The order of window sizing and source choice
+  (steps 10 and 13) should be confirmed.
+- **M11. Reach of the gradient.** The clustered parameters are set from a grid fixed in the
+  pilot, not tuned to the sites. A site outside the range is reported as extrapolation. The
+  methodology stage may prefer to measure the sites' metrics first and span them; that uses no
+  outcome data. A minimum-spacing pattern, which the independent review suggested, is not in the
+  design.
+- **M12. Fallback evidence value.** Two test cases; possibly both extrapolation.
+- **M13. Unsourced background.** `outputs/evidence_notes.md` section 23 lists the independent
+  review's statements that no supplied paper supports. The pilot check of the rewired threshold
+  against a formula, which the review proposed, needs a source before it is used.
+- **M14. No literature search.** Needed before any abstract goes beyond "application".
+- **M15. Wording downstream.** Packets 03 and 04 should say "injected label errors under an
+  independent-cascade rule" and repeat A4. The question in 4.1 keeps its frozen wording.
+- **M16. Emphasis.** The independent review recommends leading the write-up with the synthetic
+  gradient and presenting the sites as cases on it. No ruling was made; H1-G stays supporting.
+- **M17. Conventions.** The 1.25 margin, the one-tenth Monte Carlo criterion, the 30% thresholds,
+  and the validation tolerance have no evidence basis. They are fixed in advance and should be
+  described as conventions.
+
+### 10.4 Standing limitations
+
+- **L1. Evidence.** Nineteen papers read, several in part and three by keyword search; eleven
+  listed items unread. Two of the new papers are preprints. No literature search. No novelty,
+  causal, policy, or external-validity claim without human approval.
+- **L2. Review independence.** The independent review did not read the evidence and comes from
+  the same model family as this document (section 1).
+- **L3. Nothing has been measured.** Node counts, extents, arrangement metrics, source agreement,
+  and completeness at both sites are all unknown.
 
 ## 11. Suggested next scientific action
 
-1. **Independent review** of this v7 file in a fresh conversation, as decision 6 anticipates.
-2. **Synthetic pilot (5.1)**, which fixes O1 to O4 and checks the expectations `R < 1` and
-   `Q > 1`. It uses no real data and does not depend on the review.
-3. **Nominate 5 suburb candidates** with one-line justifications, for human approval, before any
-   indicator is computed (5.2).
-4. **Pre-analysis gate (5.2).**
-5. Regenerate packets 03 and 04 so they embed this v7 file and the review. The orchestrator does
-   not embed `outputs/evidence_notes.md`.
+1. **Validate the `t_c` estimator on the square lattice** (5.1, step A). It needs no data and
+   gates everything else.
+2. **Kibera count step** (5.2, steps 1 to 6): sources, spot check, within-site completeness, node
+   definition, `N*`.
+3. **Synthetic pilot at `N*`** (5.1, step B), fixing O1 to O7 and checking M3 and M5 if the
+   methodology stage adopts them.
+4. **Nominate 5 suburb candidates** with one-line justifications, for human approval, before any
+   indicator is computed (5.2, steps 7 to 9).
+5. **Suburb selection and gate** (5.2, steps 10 to 15).
+6. Regenerate the prompt packets so they embed this v8 file. Two gaps in what the orchestrator
+   embeds (`src/orchestrator.py`):
+   - Packets 03 and 04 look for `outputs/question_review.md`. That file is now in
+     `outputs/history/`, and the independent review is saved under a different name, so neither
+     review would be embedded as things stand.
+   - No packet embeds `outputs/evidence_notes.md`. Packet 04 should be given it by hand.
 
 ## 12. Future work (recorded, out of scope)
 
@@ -638,8 +967,11 @@ tie-breaking; the data-gate rule.
   method in the evidence averages over neighbours, which dilutes a single erroneous neighbour as
   degree grows; the cascade used here does the opposite. Repeating the analysis under an
   averaging rule would show whether the conclusions depend on that choice.
-- **The sub-window model**, if the fallback runs in its place.
-- **Spatial-leakage control**, if the fallback runs: not exercised in this study.
+- **A null that also preserves which degrees are linked to which.** It would separate local
+  connection pattern from the clumping of dense patches (independent review, issue 4). Decision 7
+  rules it out of this study.
+- **The sub-window model and spatial-leakage control**, which the fallback does not exercise.
+- **More than two sites**, so that the cross-site contrast is not a comparison of two cases.
 
 
 # EXECUTION REQUIREMENT
